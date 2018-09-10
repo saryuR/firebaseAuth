@@ -1,0 +1,205 @@
+page-signup {
+
+    .scroll-content{
+        padding-bottom: 0 !important;
+    }
+  ion-header{
+    .toolbar {
+        .toolbar-background{
+          background: transparent;
+          border-bottom: none;
+        }
+        .back-button{
+          color: #009bad;
+          left: 10px;
+          .button-inner{
+            font-size: 1em;
+            .ion-ios-arrow-back{
+              font-size: 1.5em;
+            }
+            .ion-ios-arrow-back:before{
+              content: "\f27d";
+            }
+            .back-button-text{
+              display: none;
+            }
+          }
+        }
+    }
+  }
+   ion-content{
+    background: url(../assets/imgs/bottom-design.svg);
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center bottom;
+  }
+  form {
+    margin-bottom: 32px;
+    button {
+      margin-top: 20px;
+    }
+  }
+
+  p {
+    font-size: 0.8em;
+    color: #868686;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  ion-label {
+    margin-left: 5px;
+  }
+
+  ion-input {
+    padding: 5px;
+  }
+
+  .invalid {
+    border-bottom: 1px solid #FF6153;
+  }
+
+  .error-message .item-inner {
+    border-bottom: 0 !important;
+  }
+  h2.title {
+      margin-top: 0rem !important;
+      margin-bottom: 3rem;
+      position: relative;
+      text-transform: uppercase;
+      color: color($colors, primary);
+      text-align: center;
+      font-size: 2em;
+      float: left;
+      width: 100%;
+      font-weight: bold;
+      &:after{
+          content: "";
+          width: 25px;
+          height: 3px;
+          background: color($colors, primary);
+          position: absolute;
+          left: 46%;
+          bottom: -6px;
+          right: auto;
+      }
+  }
+  .form-list{
+      margin: 0px 0 0px 0;
+      clear: both;
+      .item {
+        border-top: none !important;
+        padding-left: 0;
+        margin: 0;
+        font-size: 1em;
+        font-weight: 600;
+        min-height: auto;
+        background: transparent;
+        padding: 5px 0;
+        &.item-select{
+            border-bottom: 1px solid #dedede;
+        }
+        ion-input{
+          padding: 5px 0px;
+          .text-input{
+            margin-top: 0px;
+            color: #878787;
+            margin-bottom: 0;
+            margin-left: 0;
+            font-weight: normal;
+          }
+          
+        }
+        ion-select{
+            width: 100%;
+            max-width: 100%;
+            padding: 5px 3px 5px 0;
+            color: #878787;
+            font-weight: normal;
+          }
+        a{
+          text-decoration: none;
+        }
+        &.border-b-n{
+          border-bottom: none;
+        }
+        &.error-message{
+            border-bottom: none;
+            margin: 0px 0 0 0;
+            height: auto;
+            min-height: auto;
+            padding: 0;
+            ion-label{
+              padding: 0px;
+              margin: 0;
+            }
+          p{
+            font-size: 0.67em;
+          }
+        }
+        &.item-checkbox{
+          color: #878787;
+          ion-label{
+            span{
+              color: #009bad;
+              white-space: normal;
+            }
+          }
+          ion-checkbox{
+            &.checkbox {
+              .item-cover{
+                width: 99px;
+              }
+              margin-right: 10px;
+              .checkbox-icon{
+                border-radius: 5px;
+                border-width: 2px;
+                width: 21px;
+                height: 21px;
+                &.checkbox-checked{
+                    background-color: #9f9f9f;
+                    border-color: #9f9f9f;
+                }
+              }
+            }
+          }
+        }
+        .checkbox.checkbox-ios .checkbox-icon.checkbox-checked .checkbox-inner{
+          left: 4px;
+          top: -3px;
+        }
+        &.item-checkbox-checked{
+          .checkbox-inner{
+            left: 5px;
+          top: -2px;
+          width: 10px;
+          height: 18px;
+          border-width: 3px;
+          border-top-width: 0;
+          border-left-width: 0;
+          transform: rotate(43deg);
+          }
+        }
+      }
+      .error-message{
+        font-size: 0.83em;
+        color: #d80006;
+        padding: 0px 0 0 0;
+        margin: 0;
+        line-height: 15px;
+      }
+    }
+    .item-inner{
+        border-bottom: none;
+      }
+      .button {
+        width: auto;
+        margin: auto;
+        padding: 0 25px;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 1.2em;
+        border-radius: 0px;
+      }
+
+}

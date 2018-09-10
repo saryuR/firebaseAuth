@@ -1,0 +1,127 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <!--<ion-title>
+      Create an Account
+    </ion-title>-->
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <h2 class="title">{{"signup.Sign up" | translate}}</h2>
+  <form [formGroup]="signupForm" (submit)="signupUser()" novalidate>
+
+    <ion-list class="form-list">
+      <ion-item>
+        <ion-input type="text" placeholder="{{'edit.First Name' | translate}}" formControlName="first_name" ></ion-input>
+        <!--<ion-input type="text" placeholder="Nome" *ngIf="language != 'en'"></ion-input>-->
+      </ion-item>
+
+      <div *ngIf="!signupForm.controls.first_name.valid  && signupForm.controls.first_name.dirty">
+        <p class="error-message" [hidden]="!signupForm.controls.first_name.hasError('required')">{{"edit.This field is required" | translate}}.</p>
+        <p class="error-message" *ngIf="!signupForm.controls.first_name.valid  && signupForm.controls.first_name.dirty && 
+        signupForm.controls.first_name.invalidName">{{"signup.Please enter a valid first name" | translate}}.</p>
+        <!-- <p class="error-message">{{"signup.Please enter a valid email" | translate}}.</p> -->
+      </div>
+
+    </ion-list>
+    <ion-list class="form-list">
+      <ion-item>
+        <ion-input type="text" formControlName="last_name" placeholder="{{'edit.Last Name' | translate}}"></ion-input>
+        <!--<ion-input type="text" placeholder="Cognome" *ngIf="language != 'en'"></ion-input>-->
+      </ion-item>
+      <div *ngIf="!signupForm.controls.last_name.valid  && signupForm.controls.last_name.dirty">
+        <p class="error-message" [hidden]="!signupForm.controls.last_name.hasError('required')">{{"edit.This field is required" | translate}}.</p>
+        <p class="error-message" *ngIf="!signupForm.controls.last_name.valid  && signupForm.controls.last_name.dirty && 
+        signupForm.controls.last_name.invalidName">{{"signup.Please enter a valid first name" | translate}}.</p>
+        <!-- <p>{{"signup.Please enter a valid email" | translate}}.</p> -->
+      </div>
+       <ion-item>
+        <ion-input placeholder="{{'setting.Username' | translate}}" formControlName="username" type="url"></ion-input>
+      </ion-item>
+      <div [hidden]="signupForm.controls.username.valid || signupForm.controls.username.pristine" class="alert ng-invalid">
+        <p class="error-message" [hidden]="!signupForm.controls.username.hasError('required')">{{"edit.This field is required" | translate}}.</p>
+        <p class="error-message" *ngIf="!signupForm.controls.username.valid && !signupForm.controls.username.hasError('required')">
+            {{"reset.Please use only uppercase and lowercase letters, numbers, - (dash)" | translate}}
+        </p>
+      </div>
+    </ion-list>
+
+    <ion-list class="form-list">
+      <ion-item>
+        <ion-input formControlName="email" type="email" placeholder="{{'edit.Email' | translate}}" [class.invalid]="!signupForm.controls.email.valid && signupForm.controls.email.dirty"></ion-input>
+        <!--<ion-input formControlName="email" type="email" placeholder="Indirizzo Email" [class.invalid]="!signupForm.controls.email.valid && signupForm.controls.email.dirty"
+          *ngIf="language != 'en'"></ion-input>-->
+      </ion-item>
+      <div *ngIf="!signupForm.controls.email.valid  && signupForm.controls.email.dirty">
+        <p class="error-message" [hidden]="!signupForm.controls.email.hasError('required')">{{"edit.This field is required" | translate}}.</p>
+        <p class="error-message">{{"signup.Please enter a valid email" | translate}}.</p>
+      </div>
+
+    </ion-list>
+    
+  
+    <!--<ion-item>
+      <ion-label stacked>Recovery Email</ion-label>
+      <ion-input formControlName="email" type="email" placeholder="Your email address"
+        [class.invalid]="!signupForm.controls.email.valid && signupForm.controls.email.dirty"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!signupForm.controls.email.valid  && signupForm.controls.email.dirty">
+      <p>Please enter a valid email.</p>
+    </ion-item>-->
+    <ion-list class="form-list">
+      <!-- <ion-item>
+        <ion-input formControlName="password" type="password" placeholder="Password" [class.invalid]="!signupForm.controls.password.valid && signupForm.controls.password.dirty"
+          *ngIf="language == 'en'"></ion-input>
+        <ion-input formControlName="password" type="password" placeholder="Password" [class.invalid]="!signupForm.controls.password.valid && signupForm.controls.password.dirty"
+          *ngIf="language != 'en'"></ion-input>
+      </ion-item>
+      <ion-item class="error-message" *ngIf="!signupForm.controls.password.valid  && signupForm.controls.password.dirty">
+        <p>{{"signup.Your password needs more than 6 characters" | translate}}.</p>
+      </ion-item> -->
+
+      <ion-item>
+        <!--<ion-label stacked>Password</ion-label>-->
+        <ion-input type="Password" formControlName="password" placeholder="Password"></ion-input>
+      </ion-item>
+      <p class="error-message" *ngIf="!signupForm.controls.password.valid  && signupForm.controls.password.dirty">{{"reset.email err" | translate}}.</p>
+
+      <ion-item>
+        <!--<ion-label stacked>Password</ion-label>-->
+        <ion-input type="Password" formControlName="password_confirmation" placeholder="{{'Password Confirmation' | translate}}"></ion-input>
+      </ion-item>
+      <p class="error-message" *ngIf="!signupForm.controls.password_confirmation.hasError('required') && !signupForm.controls.password.valid  && !signupForm.controls.password.dirty">{{"edit.This field is required" | translate}}.</p>
+      <p class="error-message" *ngIf="!signupForm.controls.password_confirmation.valid  && signupForm.controls.password_confirmation.dirty">{{"reset.password not matched" | translate}}.</p>
+
+    </ion-list>
+    <!-- <ion-list class="form-list">
+      <ion-item>
+        <ion-input type="password" placeholder="Confirm Password" *ngIf="language == 'en'"></ion-input>
+        <ion-input type="password" placeholder="Conferma la Password" *ngIf="language != 'en'"></ion-input>
+      </ion-item>
+    </ion-list>
+    -->
+    <ion-list class="form-list">
+      <ion-item>
+        <ion-input type="text" formControlName="referral_code" placeholder="{{'Referral Code' | translate}}"></ion-input>
+      </ion-item>
+    </ion-list>
+
+
+    <ion-list class="form-list">
+      <ion-item class="border-b-n">
+        <ion-label >{{"signup.I Accept" | translate}}
+          <a *ngIf="language == 'en'" href="https://gopib.net/mobile/en/terms-conditions">{{"signup.Terms & Condition" | translate}}</a>
+          <a *ngIf="language == 'it'" href="https://gopib.net/mobile/it/terms-conditions">{{"signup.Terms & Condition" | translate}}</a>
+          <!-- <span (click)="gotoTermsandConditions()">{{"signup.Terms & Condition" | translate}}</span> -->
+        </ion-label>
+        <ion-checkbox color="dark" formControlName="is_term_accept" checked="true"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+    <button ion-button block type="submit" [disabled]="this.signupForm.value.is_term_accept == false">
+      {{"signup.Sign up" | translate}}
+    </button>
+
+  </form>
+
+</ion-content>

@@ -1,0 +1,232 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ pageTitle }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <div class="profile-pic">
+      <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
+    <div class="profile-pic-center" (click)="setPhoto()">
+      <img *ngIf="user.img == ''" src="assets/icon/profile-gray.png" width="90">
+      <img *ngIf="user.img != ''" src="{{user.img}}" width="90" class="uplode-img">
+      <!-- <span class="gopib-avatar">AB</span> -->
+      <!-- <span *ngIf="gopib_avatar == '' && userImage == ''" class="gopib-avatar"> #</span>
+      <span *ngIf="gopib_avatar != '' && userImage == ''" class="gopib-avatar">{{gopib_avatar}}</span> -->
+      <!-- <img  *ngIf="user && user.img" src="{{user.img}}"> -->
+    </div>
+  </div>
+  <!-- <div class="profile-pic">
+    <ion-avatar (click)="setPhoto()">
+      <img *ngIf="!user" src="assets/images/profile.png">
+      <img  *ngIf="user && user.img" src="{{user.img}}">
+      </ion-avatar>
+  </div> -->
+
+  <form [formGroup]="userBasicDetails" novalidate (submit)="submitBasicProfile()" #userBasicDetailsForm='ngForm'>
+    <ion-list class="form-profile userBasicDetails">
+      <p class="info-title">{{"edit.YOUR BASIC INFORMATION" | translate}}</p>
+      <div class="privacy-to-all">
+        <div (click)="applyPrivacyToall($event, 0)">
+
+          <div class="privacy-to-all-bg">
+            <img src="assets/icon/view-gray.svg">
+            <span *ngIf="!basicDataPrivacy">{{"edit.Apply Privacy To All" | translate}}</span>
+            <div *ngFor="let type of privacy">
+              <span *ngIf="basicDataPrivacy == type.id">{{type.name}}</span>
+            </div>
+          </div>
+          <div *ngIf="applyToall[0]" class="show-menu">
+            <ul class="dropdown-menu">
+              <li *ngFor="let type of privacy" (click)="applytoalluserBasicDetails(userBasicDetails,type)">{{type.name}}</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <ion-item>
+        <ion-label stacked>{{"edit.First Name" | translate}}
+          <i>*</i>
+        </ion-label>
+        <ion-input formControlName="first_name" type="text" placeholder="{{'edit.First Name' | translate}}" maxlength="20" [class.ng-invalid]="!userBasicDetails.controls.first_name.valid || userBasicDetails.controls.first_name.hasError('required')"></ion-input>
+      </ion-item>
+
+
+      <div [hidden]="userBasicDetails.controls.first_name.valid || userBasicDetails.controls.first_name.pristine" class="alert ng-invalid">
+        <div [hidden]="!userBasicDetails.controls.first_name.hasError('required')">{{"edit.This field is required" | translate}}.</div>
+        <div class="error-message" *ngIf="!userBasicDetails.controls.first_name.valid && !userBasicDetails.controls.first_name.hasError('required')">{{"signup.Please enter a valid first name" | translate}}.</div>
+      </div>
+
+
+      <!-- <div class="alert ng-invalid" *ngIf="userBasicDetails.controls.first_name.hasError('required') && userBasicDetailsForm.submitted">
+        {{"edit.This field is required" | translate}}.
+      </div> -->
+
+      <ion-item class="p-t-10">
+        <ion-label stacked>{{"edit.Last Name" | translate}} *</ion-label>
+        <ion-input type="text" formControlName="last_name" placeholder="{{'edit.Last Name' | translate}}" maxlength="20" [class.ng-invalid]="!userBasicDetails.controls.last_name.valid || userBasicDetails.controls.last_name.hasError('required')"></ion-input>
+      </ion-item>
+
+
+      <div [hidden]="userBasicDetails.controls.last_name.valid || userBasicDetails.controls.last_name.pristine" class="alert ng-invalid">
+        <div [hidden]="!userBasicDetails.controls.last_name.hasError('required')">{{"edit.This field is required" | translate}}.</div>
+        <div class="error-message" *ngIf="!userBasicDetails.controls.last_name.valid && !userBasicDetails.controls.last_name.hasError('required')">{{"signup.Please enter a valid first name" | translate}}.</div>
+      </div>
+
+      <ion-item class="p-t-10">
+        <ion-label stacked>{{"edit.Birthday" | translate}}</ion-label>
+        <ion-datetime doneText='{{"Done" | translate}}' cancelText='{{"cancel" | translate}}' formControlName="date_of_birth" placeholder="{{'dd/mm/yyyy' | translate}}"
+          displayFormat="DD MMM YYYY" pickerFormat="DD MMM YYYY" [max]="today1" class="date-picker"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>{{"edit.Place of Birth" | translate}}</ion-label>
+        <ion-input type="text" formControlName="place_of_birth" placeholder="{{'edit.Place of Birth' | translate}}"></ion-input>
+      </ion-item>
+
+
+
+      <ion-item class="p-t-10">
+        <ion-label stacked>{{"Gender" | translate}}</ion-label>
+        <ion-select okText='{{"OK" | translate}}' cancelText='{{"cancel" | translate}}' formControlName="gender" placeholder="{{'Gender' | translate}}"  interface="action-sheet">
+          <!-- <ion-option *ngFor="let type of genderTypes" [value]="type.id">{{type.name}}</ion-option> -->
+          <ion-option [value]="Girl">Girl</ion-option>
+                    <ion-option [value]="Boy">Boy</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" formControlName="contact_number" placeholder="{{'edit.Phone No' | translate}}" pattern="[0-9]*"
+          [class.ng-invalid]="userBasicDetails.controls.contact_number.hasError('required')"></ion-input>
+      </ion-item>
+
+
+
+      <div *ngIf="!userBasicDetails.controls.contact_number.pristine" class="alert ng-invalid">
+        <div *ngIf="userBasicDetails.controls.contact_number.hasError('required') && userBasicDetailsForm.submitted"> {{"edit.This field is required" | translate}} </div>
+        <div *ngIf="!userBasicDetails.controls.contact_number.valid && !userBasicDetails.controls.contact_number.hasError('required')">{{"edit.Please enter valid mobile no" | translate}}</div>
+      </div>
+      <div class="alert ng-invalid">
+        <div *ngIf="userBasicDetails.controls.contact_number.hasError('required') && userBasicDetailsForm.submitted && userBasicDetails.controls.contact_number.pristine">
+          {{"edit.This field is required" | translate}} </div>
+      </div>
+
+      <ion-item>
+        <ion-label stacked>{{"edit.Email" | translate}}</ion-label>
+        <ion-input type="email" formControlName="email" placeholder="{{'edit.Email' | translate}}" [disabled]="true"></ion-input>
+      </ion-item>
+
+      <!-- <div class="remove-section">
+        <button type="button" class="btn btn-default" (click)="changeEmail()">
+          <span class="icon">
+          </span> Change</button>
+      </div> -->
+
+      <ion-item>
+        <ion-label stacked>{{"edit.Nationality" | translate}}</ion-label>
+        <ion-input type="text" formControlName="nationality" placeholder="{{'edit.Nationality' | translate}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>{{"edit.Marital Status" | translate}}</ion-label>
+        <ion-select okText='{{"OK" | translate}}' cancelText='{{"cancel" | translate}}' formControlName="marital_status" placeholder="{{'edit.Marital Status' | translate}}"  interface="action-sheet">
+          <ion-option *ngFor="let type of marital_status" [value]="type.id">{{type.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+
+      <ion-item class="p-t-10">
+        <ion-label stacked>{{"edit.Children" | translate}}</ion-label>
+        <ion-select okText='{{"OK" | translate}}' cancelText='{{"cancel" | translate}}' formControlName="children" placeholder="{{'edit.Children' | translate}}"  interface="action-sheet">
+          <!-- <ion-option *ngFor="let type of children_status" [value]="type.id">{{type.name}}</ion-option> -->
+          <ion-option [value]="1">Yes</ion-option>
+          <ion-option [value]="2">No</ion-option>
+        </ion-select>
+      </ion-item>
+
+
+      <div *ngIf="userBasicDetails.controls.children.value == '1'">
+        <div formArrayName="children_details" margin-bottom>
+          <section [formGroupName]="i" *ngFor="let tech of userBasicDetails.controls.children_details.controls; let i = index">
+            <ion-item-group>
+              <div *ngIf="userBasicDetails.controls.children_details.controls.length > 0">
+                <ion-item>
+                  <ion-label class="none">{{"edit.Children" | translate}}</ion-label>
+                  <ion-select okText='{{"OK" | translate}}' cancelText='{{"cancel" | translate}}' name="gender" formControlName="gender" class="form-control"  interface="action-sheet"
+                    placeholder="{{'edit.Children' | translate}}">
+                    <!-- <ion-option *ngFor="let type of gender" [value]="type.id">{{type.name}}</ion-option> -->
+                    <ion-option [value]="Girl">Girl</ion-option>
+                    <ion-option [value]="Boy">Boy</ion-option>
+                  </ion-select>
+                </ion-item>
+
+                <div class="error-message" *ngIf="userBasicDetails.controls.children_details.controls[i].controls.gender.hasError('required')
+                && userBasicDetailsForm.submitted">
+                  {{"edit.This field is required" | translate}}.
+                </div>
+
+
+                <ion-item>
+                  <ion-datetime doneText='{{"Done" | translate}}' cancelText='{{"cancel" | translate}}' class="form-control" name='exp' formControlName="date_of_birth"
+                    placeholder="{{'dd/mm/yyyy' | translate}}" displayFormat="DD MMM YYYY" pickerFormat="DD MMM YYYY" [max]="today1"></ion-datetime>
+                  <input>
+                </ion-item>
+
+                <div class="error-message" *ngIf="userBasicDetails.controls.children_details.controls[i].controls.date_of_birth.hasError('required')
+                 && userBasicDetailsForm.submitted">
+                  {{"edit.This field is required" | translate}}.
+                </div>
+
+              </div>
+              <!--<span float-right ion-button icon-left clear class="add-contact-btn remove" *ngIf="userBasicDetails.controls.children_details.controls.length > 1"
+                (click)="removeDynamicInputField(i,userBasicDetails.controls.children_details,'childs')">
+                <i>
+                  <img src="assets/icon/remove-children.svg">
+                </i>
+                {{"edit.Remove" | translate}}
+              </span>-->
+              <div class="remove-section" *ngIf="userBasicDetails.controls.children_details.controls.length > 1">
+                <button type="button" type="button" class="btn btn-default" (click)="removeDynamicInputField(i,userBasicDetails.controls.children_details,'childs')">
+                  <span class="icon">
+                    <img src="assets/icon/remove-children.svg">
+                  </span> {{"edit.Remove" | translate}}</button>
+              </div>
+            </ion-item-group>
+          </section>
+
+          <!-- Allow new input field to be generated/added -->
+          <!--<span ion-button float-left icon-left clear class="add-contact-btn add-new" (click)="addDynamicInputField(userBasicDetails.controls.children_details,'childs')">
+            <i>
+              <img src="assets/icon/add-children.svg">
+            </i>
+            {{"edit.Add Children" | translate}}
+          </span>-->
+          <div class="remove-section add-section">
+            <button type="button" class="btn btn-default" (click)="addDynamicInputField(userBasicDetails.controls.children_details,'childs',userBasicDetails.controls.children_details.length)">
+              <span class="icon">
+                <img src="assets/icon/add-children.svg">
+              </span> {{"edit.Add Children" | translate}}</button>
+          </div>
+        </div>
+      </div>
+
+      <ion-item class="ion-input-custom">
+        <ion-label stacked>{{"edit.Who I Am" | translate}}
+          <textarea id="about_you" #about_you class="form-control" formControlName="about_you" maxLength="200" placeholder="{{'edit.Who I Am' | translate}}"
+            (keypress)="enterKey(about_you)"></textarea>
+        </ion-label>
+        <!-- <ion-input type="text" placeholder="{{'edit.Who I Am' | translate}}" formControlName="about_you" maxlength="200"></ion-input> -->
+
+      </ion-item>
+      <small class="form-text text-muted" *ngIf="about_you['added'] == 200">
+        <code>{{200- about_you.value.length}} </code> Remaining characters</small>
+
+      <ion-buttons class="submit-btn">
+        <button type="button" class="button" (click)="resetUserProfile(userBasicDetails,'userBasicDetails')">{{"Reset" | translate}}</button>
+        <button type="submit" class="button">{{"Update" | translate}}</button>
+      </ion-buttons>
+    </ion-list>
+  </form>
+
+</ion-content>

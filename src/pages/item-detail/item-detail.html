@@ -1,0 +1,58 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-buttons start>
+          <button ion-button menuToggle><ion-icon name="md-menu" item-right></ion-icon></button>
+        </ion-buttons>
+        <ion-title *ngIf="!imgData">Conversations</ion-title>
+        <ion-title *ngIf="imgData && imgData.url">Forward To..</ion-title>
+    
+    
+        <ion-buttons end>
+          <button ion-button icon-only tappable (click)="newMessage()"><ion-icon name="md-add"></ion-icon></button>
+        </ion-buttons>
+      </ion-navbar>
+      <ion-navbar class="nav-search">
+        <div *ngIf="conversations && conversations.length > 0">
+          <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search conversation" showCancelButton="false" cancelButtonText="Done"></ion-searchbar>
+        </div>
+      </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-content [ngClass]="{'searchbar': conversations && conversations.length > 0}">
+        <!-- No conversations to show -->
+        <div class="empty-list" *ngIf="conversations && conversations.length <= 0">
+          <h1><ion-icon name="text"></ion-icon></h1>
+          <p>No new conversation yet.</p>
+          <!-- <button ion-button icon-left tappable (click)="newMessage()"><ion-icon name="md-add"></ion-icon>Start Chat</button> -->
+        </div>
+        <!-- Show conversations -->
+        <ion-list class="avatar-list" *ngIf="conversations && conversations.length > 0">
+          <ion-item *ngFor="let conversation of conversations" no-lines tappable>
+              <ion-avatar item-left *ngIf="conversation.img" (click)="info(conversation)">
+                <img src="{{conversation.img}}">
+            </ion-avatar>
+            <ion-avatar item-left *ngIf="!conversation.img" (click)="info(conversation)">
+                <img src="assets/icon/group-icon.svg">
+            </ion-avatar>
+            <div [ngClass]=hasUnreadMessages(conversation) (click)="message(conversation)">
+              <h2 *ngIf="conversation.name">{{conversation.name}}</h2>
+              <ion-badge color="danger" *ngIf="conversation.unreadMessagesCount > 0">{{conversation.unreadMessagesCount}}</ion-badge>
+              <p *ngIf="conversation.message">{{conversation.message}}</p>
+              <span *ngIf="conversation.date">{{conversation.date}}</span>
+            </div>
+          </ion-item>
+        </ion-list>
+        <!-- <floatingbuttons></floatingbuttons> -->
+
+  <!-- <div class="item-profile" text-center #profilePic [style.background-image]="'url(' + item.profilePic + ')'">
+  </div>
+
+  <div class="item-detail" padding>
+    <h2>{{item.name}}</h2>
+    <p>{{item.about}}</p>
+  </div> -->
+</ion-content>
